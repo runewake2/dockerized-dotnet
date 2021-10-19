@@ -32,7 +32,7 @@ namespace dockerized_dotnet
             {
                 endpoints.MapGet("/", async context =>
                 {
-                    await context.Response.WriteAsync("Hello Azure!");
+                    await context.Response.WriteAsync("Hello World!");
                 });
             });
         }

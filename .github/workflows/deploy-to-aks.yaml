@@ -1,0 +1,22 @@
+name: deploy to azure
+on:
+  push:
+    branches:
+    - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    
+    - uses: Azure/docker-login@v1
+      with:
+        login-server: samscoolcontainers.azurecr.io
+        # From Service Account
+        username: ${{ secrets.REGISTRY_USERNAME }}
+        password: ${{ secrets.REGISTRY_PASSWORD }}
+    
+    - run: |
+        docker build . -t samscoolcontainers.azurecr.io/dockerized:${{ github.sha }}
+        docker push samscoolcontainers.azurecr.io/dockerized:${{ github.sha }}

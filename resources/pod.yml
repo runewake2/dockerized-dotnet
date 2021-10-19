@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dockerized-deployment
+  labels:
+    app: cloudapp
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: cloudapp
+  template:
+    metadata:
+      labels:
+        app: cloudapp
+    spec:
+      containers:
+      - name: dockerized
+        image: samscoolcontainers.azurecr.io/dockerized:v1
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: dockerized
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+  selector:
+    app: cloudapp

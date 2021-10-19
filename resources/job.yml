@@ -1,0 +1,12 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: query
+spec:
+  template:
+    spec:
+      containers:
+      - name: query
+        image: busybox
+        command: ['sh', '-c', 'wget http://dockerized/']
+      restartPolicy: OnFailure

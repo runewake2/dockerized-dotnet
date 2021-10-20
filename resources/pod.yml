@@ -5,7 +5,7 @@ metadata:
   labels:
     app: cloudapp
 spec:
-  replicas: 1
+  replicas: 5
   selector:
     matchLabels:
       app: cloudapp

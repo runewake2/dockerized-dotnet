@@ -13,3 +13,14 @@ jobs:
     - run: |
         docker build . -t samscoolcontainers.azurecr.io/dockerized:${{ github.sha }}
         docker push samscoolcontainers.azurecr.io/dockerized:${{ github.sha }}
+    - uses: Azure/aks-set-context@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+        cluster-name: samscoolcluster
+        resource-group: demo
+    - uses: Azure/k8s-deploy@v1.4
+      with:
+        manifests: |
+          resources/pod.yml
+        images: |
+          samscoolcontainers.azurecr.io/dockerized:${{ github.sha }}
